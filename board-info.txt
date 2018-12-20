@@ -1,1 +1,1 @@
-require version-trustzone=TZ.BF.3.0.1-00067
+require board=libra

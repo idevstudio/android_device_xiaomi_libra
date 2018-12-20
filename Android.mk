@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 The CyanogenMod Project
+# Copyright 2014 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,21 +14,24 @@
 # limitations under the License.
 #
 
+# This contains the module build definitions for the hardware-specific
+# components for this device.
+#
+# As much as possible, those components should be built unconditionally,
+# with device-specific names to avoid collisions, to avoid device-specific
+# bitrot and build breakages. Building a component unconditionally does
+# *not* include it on all devices, so it is safe even with hardware-specific
+# components.
+
 LOCAL_PATH := $(call my-dir)
 
 ifeq ($(TARGET_DEVICE),libra)
 
-include $(call all-makefiles-under,$(LOCAL_PATH))
+include $(call all-subdir-makefiles,$(LOCAL_PATH))
 
-# WiFi symlinks
-$(shell mkdir -p $(TARGET_OUT_ETC)/firmware/wlan/qca_cld; \
-    ln -sf /data/misc/wifi/wlan_mac.bin \
-	    $(TARGET_OUT_ETC)/firmware/wlan/qca_cld/wlan_mac.bin)
-# END WiFi symlinks
+include $(CLEAR_VARS)
 
-# IMS lib symlink
 IMS_LIBS := libimscamera_jni.so libimsmedia_jni.so
-
 IMS_SYMLINKS := $(addprefix $(TARGET_OUT_VENDOR_APPS)/ims/lib/arm64/,$(notdir $(IMS_LIBS)))
 $(IMS_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	@echo "IMS lib link: $@"
@@ -37,7 +40,6 @@ $(IMS_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	$(hide) ln -sf /system/vendor/lib64/$(notdir $@) $@
 
 ALL_DEFAULT_INSTALLED_MODULES += $(IMS_SYMLINKS)
-# END IMS lib symlink
 
 RFS_MSM_ADSP_SYMLINKS := $(TARGET_OUT)/rfs/msm/adsp/
 $(RFS_MSM_ADSP_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
@@ -62,5 +64,32 @@ $(RFS_MSM_MPSS_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 	$(hide) ln -sf /firmware $@/readonly/firmware
 
 ALL_DEFAULT_INSTALLED_MODULES += $(RFS_MSM_ADSP_SYMLINKS) $(RFS_MSM_MPSS_SYMLINKS)
+
+WCNSS_CFG := WCNSS_qcom_cfg.ini WCNSS_qcom_wlan_nv.bin WCNSS_cfg.dat
+WCNSS_CFG_SYMLINKS := $(addprefix $(TARGET_OUT_ETC)/firmware/wlan/qca_cld/,$(notdir $(WCNSS_CFG)))
+$(WCNSS_CFG_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+	@echo "WCNSS configs and firmware links: $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf /system/etc/wifi/$(notdir $@) $@
+
+WCNSS_MAC_SYMLINK := $(TARGET_OUT_ETC)/firmware/wlan/qca_cld/wlan_mac.bin
+$(WCNSS_MAC_SYMLINK): $(LOCAL_INSTALLED_MODULE)
+	@echo "WCNSS MAC bin link: $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf /data/misc/wifi/$(notdir $@) $@
+
+ALL_DEFAULT_INSTALLED_MODULES += $(WCNSS_CFG_SYMLINKS) $(WCNSS_MAC_SYMLINK)
+
+BT_FIRMWARE := btfw32.tlv btnv32.bin
+BT_FIRMWARE_SYMLINKS := $(addprefix $(TARGET_OUT_VENDOR)/firmware/,$(notdir $(BT_FIRMWARE)))
+$(BT_FIRMWARE_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+	@echo "Creating BT firmware symlink: $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) ln -sf /bt_firmware/image/$(notdir $@) $@
+
+ALL_DEFAULT_INSTALLED_MODULES += $(BT_FIRMWARE_SYMLINKS)
 
 endif

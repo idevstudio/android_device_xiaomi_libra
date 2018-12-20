@@ -1,1 +1,1 @@
-allow ueventd lirc_device:chr_file { create setattr };
+allow ueventd fpc_sysfs:file { write open };

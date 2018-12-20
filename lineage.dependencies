@@ -1,14 +1,22 @@
 [
   {
-    "repository": "android_kernel_xiaomi_libra",
-    "target_path": "kernel/xiaomi/libra"
+    "repository": "LineageOS/android_device_qcom_common",
+    "target_path": "device/qcom/common",
+    "branch": "lineage-15.1"
   },
   {
-    "repository": "android_vendor_xiaomi_libra",
-    "target_path": "vendor/xiaomi/libra"
+    "repository":  "LineageOS/android_packages_resources_devicesettings",
+    "target_path": "packages/resources/devicesettings",
+    "branch":      "lineage-15.1"
+  },
+    {
+    "repository": "Vovan77rus59/proprietary_vendor_xiaomi_libra",
+    "target_path": "vendor/xiaomi",
+    "branch": "lineage-15.1"
   },
   {
-    "repository": "android_packages_resources_devicesettings",
-    "target_path": "packages/resources/devicesettings"
+    "repository": "Vovan77rus59/kernel_xiaomi_msm8992-lineage-15.1",
+    "target_path": "kernel/xiaomi/msm8992",
+    "branch": "Lineage-15.1_v3.10.108"
   }
 ]
