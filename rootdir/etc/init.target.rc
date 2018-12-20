@@ -89,8 +89,8 @@ on boot
     chown system system /dev/cpuset/top-app/boost/tasks
     chmod 0664 /dev/cpuset/top-app/boost/tasks
 
-    # Set DEADLINE I/O scheduler
-    setprop sys.io.scheduler "deadline"
+    # Set BFQ I/O scheduler
+    setprop sys.io.scheduler "bfq"
 
 #start camera server as daemon
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
