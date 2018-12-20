@@ -94,12 +94,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/vendor/etc/permissions/android.hardware.opengles.aep.xml
 
-#ANT+ stack
-# PRODUCT_PACKAGES += \
-#    com.dsi.ant.antradio_library \
-#    AntHalService \
-#    libantradio
-
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
