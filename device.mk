@@ -95,10 +95,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/vendor/etc/permissions/android.hardware.opengles.aep.xml
 
 #ANT+ stack
-PRODUCT_PACKAGES += \
-    com.dsi.ant.antradio_library \
-    AntHalService \
-    libantradio
+# PRODUCT_PACKAGES += \
+#    com.dsi.ant.antradio_library \
+#    AntHalService \
+#    libantradio
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -127,10 +127,6 @@ PRODUCT_PACKAGES += \
     com.quicinc.cne \
     libcnefeatureconfig \
     services-ext
-
-# EdgeGesture
-PRODUCT_PACKAGES += \
-    EdgeGesture
 
 # GPS
 PRODUCT_PACKAGES += \

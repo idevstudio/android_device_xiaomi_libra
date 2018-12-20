@@ -61,7 +61,7 @@ USE_DEVICE_SPECIFIC_GPS := true
 USE_DEVICE_SPECIFIC_LOC_API := true
 
 # ANT+
-BOARD_ANT_WIRELESS_DEVICE := "qualcomm-uart"
+#BOARD_ANT_WIRELESS_DEVICE := "qualcomm-uart"
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
@@ -95,9 +95,9 @@ WCNSS_FILTER_USES_SIBS := true
 TARGET_EXFAT_DRIVER := exfat
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/xiaomi/leo
-TARGET_KERNEL_CONFIG := libra_user_defconfig
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 boot_cpus=0-5 androidboot.selinux=permissive
+TARGET_KERNEL_SOURCE := kernel/xiaomi/libra
+TARGET_KERNEL_CONFIG := libra_defconfig
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1  boot_cpus=0-5 androidboot.selinux=permissive
 BOARD_KERNEL_BASE        := 0x00000000
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
@@ -229,3 +229,14 @@ endif
 
 # Inherit from the proprietary version
 -include vendor/xiaomi/libra/BoardConfigVendor.mk
+
+# Dexopt
+WITH_DEXPREOPT := true
+#WITH_DEXPREOPT_PIC := true
+#PRODUCT_DEX_PREOPT_BOOT_FLAGS := speed
+#PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := speed
+
+# Use Snapdragon LLVM, if available
+TARGET_USE_SDCLANG := true
+SDCLANG_PATH := prebuilts/clang/host/linux-x86/sdclang/bin
+SDCLANG_LTO_DEFS := vendor/lineage/build/core/sdllvm-lto-defs.mk

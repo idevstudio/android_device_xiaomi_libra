@@ -32,9 +32,6 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
 
-    # Setup ZRAM
-    write /sys/block/zram0/comp_algorithm lz4
-
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 system system
@@ -85,7 +82,6 @@ on boot
     chmod 0660 /sys/bus/spi/devices/spi12.0/wakeup_enable
     chmod 0660 /dev/ttyHS2
     chown bluetooth bluetooth /dev/ttyHS2
-
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/device/extldo
     chmod 0660 /sys/class/rfkill/rfkill0/device/extldo
 
@@ -101,22 +97,16 @@ on boot
     mkdir /dev/socket/qmux_nfc 0770 nfc nfc
     chmod 2770 /dev/socket/qmux_nfc
     chmod 0666 /sys/class/leds/flashlight/brightness
-
-
     mkdir /persist/bluetooth 0770 bluetooth bluetooth
 
     #Create NETMGR daemon socket area
     mkdir /dev/socket/netmgr 0750 radio radio
-
     setprop wifi.interface wlan0
 
 #   Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.wifi    524288,2097152,4194304,262144,524288,1048576
-
-
     setprop ro.telephony.call_ring.multiple false
-
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
 
@@ -132,7 +122,6 @@ on boot
     setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
     setprop net.tcp.buffersize.evdo    4094,87380,524288,4096,16384,262144
-
     setprop net.tcp.2g_init_rwnd 10
 
 #   Assign TCP buffer thresholds to be ceiling value of technology maximums
@@ -170,10 +159,6 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # NFC local data and nfcee xml storage
-    mkdir /data/nfc 0770 nfc nfc
-    mkdir /data/nfc/param 0770 nfc nfc
-
     # Allow access for CCID command/response timeout configuration
     chown system system /sys/module/ccid_bridge/parameters/bulk_msg_timeout
 
@@ -187,9 +172,6 @@ on boot
 
     #doubletap to wake
     chown system system /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input1/wake_gesture
-
-    #edge gesture
-    chown system system /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input1/edge_mode
 
     #keydisabler
     chown system system /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input1/0dbutton
@@ -212,12 +194,9 @@ on post-fs-data
 
     #Create folder for mm-qcamera-daemon
     mkdir /data/misc/camera 0770 camera camera
-
     mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
-
     mkdir /data/misc/ipa 0700 net_admin net_admin
-
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
@@ -279,13 +258,8 @@ on post-fs-data
     mkdir /data/shared 0755
     chown system system /data/shared
 
-    #Create directory for FOTA
-    mkdir /data/fota 0771
-    chown system system /data/fota
-
     # Create /data/time folder for time-services
     mkdir /data/time/ 0700 system system
-
     mkdir /data/audio/ 0770 media audio
 
     # Create a folder for audio delta files
@@ -308,10 +282,8 @@ on post-fs-data
     mkdir /data/misc/SelfHost/storage/ 0700 system shell
     mkdir /data/misc/SelfHost/Running/ 2750 system shell
     mkdir /data/misc/SelfHost/socket/ 2770 system system
-
     chown system system /sys/devices/virtual/graphics/fb0/rgb
     chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
-
     chown system system /sys/class/rtc/rtc0/wakealarm
     chmod 0666 /sys/class/rtc/rtc0/wakealarm
 
@@ -325,12 +297,10 @@ on post-fs-data
     chown system system /sys/class/timed_output/vibrator/vtg_level
     chown system system /sys/class/timed_output/vibrator/vtg_max
     chown system system /sys/class/timed_output/vibrator/vtg_min
-
     chmod 0644 /sys/class/timed_output/vibrator/vtg_default
     chmod 0644 /sys/class/timed_output/vibrator/vtg_level
     chmod 0644 /sys/class/timed_output/vibrator/vtg_max
     chmod 0644 /sys/class/timed_output/vibrator/vtg_min
-
     restorecon /sys/class/timed_output/vibrator/vtg_default
     restorecon /sys/class/timed_output/vibrator/vtg_level
     restorecon /sys/class/timed_output/vibrator/vtg_max
@@ -345,7 +315,6 @@ on post-fs-data
     chmod 0664 /sys/class/graphics/fb0/dynamic_fps
     chown system graphics /sys/class/graphics/fb1/dynamic_fps
     chmod 0664 /sys/class/graphics/fb1/dynamic_fps
-
     chown system graphics /sys/class/graphics/fb0/ad
     chmod 0664 /sys/class/graphics/fb0/ad
     chown system graphics /sys/class/graphics/fb1/ad
@@ -362,9 +331,7 @@ on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
 
 # corefile limit and ETB enabling
-on property:persist.debug.trace=1
-    mkdir /data/core 0777 root root
-    write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
+on property:persist.debug.trace=0
 
 on property:bluetooth.isEnabled=true
     start btwlancoex

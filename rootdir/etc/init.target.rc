@@ -38,9 +38,7 @@ on init
 on fs
     wait /dev/block/platform/soc.0/f9824900.sdhci/mmcblk0
     symlink /dev/block/platform/soc.0/f9824900.sdhci /dev/block/bootdevice
-
     mount_all /vendor/etc/fstab.qcom
-
     mkdir /persist/data 0700 system system
     mkdir /persist/wlan_bt 0700 system system
 
@@ -48,6 +46,7 @@ on post-fs
     # We chown/chmod /cust again so because mount is run as root + defaults
     chown system system /cust
     chmod 0771 /cust
+
     # We restorecon /cust in case the cust partition has been reset.
     restorecon_recursive /cust
 
@@ -55,11 +54,6 @@ on post-fs
     mkdir /cust/lost+found 0770 root root
 
 on post-fs-data
-    mkdir /data/tombstones 0771 system system
-    mkdir /tombstones/modem 0771 system system
-    mkdir /tombstones/lpass 0771 system system
-    mkdir /tombstones/wcnss 0771 system system
-    mkdir /tombstones/dsps 0771 system system
     mkdir /persist/data/sfs 0700 system system
     mkdir /persist/data/tz 0700 system system
     mkdir /data/usf 0700 system system
@@ -73,6 +67,7 @@ on boot
     write /sys/bus/i2c/devices/2-004a/update_fw 1
     write /sys/bus/i2c/devices/2-004a/update_cfg 1
     write /sys/bus/i2c/devices/2-0020/input/input0/update_fw 1
+
 # access permission for secure touch
     chmod 0660 /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0020/input/input0/secure_touch_enable
     chmod 0440 /sys/devices/soc.0/f9924000.i2c/i2c-2/2-0020/input/input0/secure_touch
@@ -83,7 +78,6 @@ on boot
     chown system drmrpc /sys/devices/soc.0/f9924000.i2c/i2c-2/2-004a/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/f9924000.i2c/i2c-2/2-004a/secure_touch
     write /proc/sys/kernel/sched_boost 1
-
     write /dev/cpuset/foreground/cpus 0-2,4-5
     write /dev/cpuset/foreground/boost/cpus 4-5
     write /dev/cpuset/background/cpus 0
@@ -91,17 +85,12 @@ on boot
     mkdir /dev/cpuset/top-app/boost
     write /dev/cpuset/top-app/cpus 0-5
     write /dev/cpuset/top-app/boost/cpus 4-5
-
     chown system system /dev/cpuset/top-app/boost
     chown system system /dev/cpuset/top-app/boost/tasks
     chmod 0664 /dev/cpuset/top-app/boost/tasks
 
-on property:sys.boot_completed=1
-    # Enable ZRAM on boot_complete
-    swapon_all /vendor/etc/fstab.qcom
-
-    # Set BFQ I/O scheduler
-    setprop sys.io.scheduler "bfq"
+    # Set DEADLINE I/O scheduler
+    setprop sys.io.scheduler "deadline"
 
 #start camera server as daemon
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
