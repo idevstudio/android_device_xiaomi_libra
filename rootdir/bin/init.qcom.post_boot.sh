@@ -26,9 +26,9 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# Ensure at most one A57 is online when thermal hotplug is disabled
+# Ensure at most two A57 is online when thermal hotplug is disabled
 echo 1 > /sys/devices/system/cpu/cpu4/online
-echo 0 > /sys/devices/system/cpu/cpu5/online
+echo 1 > /sys/devices/system/cpu/cpu5/online
 
 # Enable LPM sleep
 echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
@@ -70,41 +70,41 @@ echo 0 > /sys/module/lpm_levels/system/a57/a57-l2-retention/idle_enabled
 echo 384000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 echo 1440000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-echo "29 384000:88 600000:90 787200:92 960000:93 1248000:98" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
-echo "0 600000:19000 787200:20000 960000:24000 1248000:38000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
-echo 93 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+echo "80 580000:59 680000:54 780000:63 880000:85 1180000:98 1280000:94" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "98000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
+echo 95 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+echo 1180000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif
 echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
 echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/max_freq_hysteresis
-echo 60000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-echo 50000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
+echo 38000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
+echo 20000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
 echo 380000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack
 echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
-echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
+echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost
 echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/align_windows
-echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_duration
+echo 250000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_duration
 
 # Configure governor settings for big cluster
 echo 384000 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 echo 1824000 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 echo "interactive" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-echo "98" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
-echo "20000 960000:60000 1248000:30000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
-echo 150 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
-echo 960000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
+echo "80 480000:44 580000:65 680000:61 780000:20 880000:90 1180000:74 1280000:98" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
+echo "78000 1280000:38000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
+echo 98 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
+echo 1180000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
 echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/ignore_hispeed_on_notif
 echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
 echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
-echo 60000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
-echo 60000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
+echo 78000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
+echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
 echo 380000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack
 echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
+echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
 echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/boost
 echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/align_windows
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration
+echo 125000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration
 
 # Enable thermal and bcl hotplug
 echo 1 > /sys/module/msm_thermal/core_control/enabled
@@ -160,11 +160,11 @@ done
 # Restorecon again to give new files the correct label.
 restorecon -R /sys/devices/system/cpu
 
-# Disable sched_boost
-echo 0 > /proc/sys/kernel/sched_boost
+# Enable sched_boost
+echo 1 > /proc/sys/kernel/sched_boost
 
-# Set GPU default power level to 5 (180MHz) instead of 4 (305MHz)
-echo 5 > /sys/class/kgsl/kgsl-3d0/default_pwrlevel
+# Set GPU default power level to 3 (367MHz)
+echo 3 > /sys/class/kgsl/kgsl-3d0/default_pwrlevel
 
 # Set Memory parameters
 echo "14746,18432,22118,25805,33038,41988" > /sys/module/lowmemorykiller/parameters/minfree

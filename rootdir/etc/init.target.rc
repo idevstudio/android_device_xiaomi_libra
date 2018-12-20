@@ -1,43 +1,11 @@
-# Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are
-# met:
-#     * Redistributions of source code must retain the above copyright
-#       notice, this list of conditions and the following disclaimer.
-#     * Redistributions in binary form must reproduce the above
-#       copyright notice, this list of conditions and the following
-#       disclaimer in the documentation and/or other materials provided
-#       with the distribution.
-#     * Neither the name of The Linux Foundation nor the names of its
-#       contributors may be used to endorse or promote products derived
-#       from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-#
-
 on early-init
     mkdir /firmware 0771 system system
     mkdir /bt_firmware 0771 system system
-    symlink /data/tombstones /tombstones
 
 on fs
     wait /dev/block/platform/soc.0/f9824900.sdhci/mmcblk0
     symlink /dev/block/platform/soc.0/f9824900.sdhci /dev/block/bootdevice
-
     mount_all fstab.qcom
-
     wait /dev/block/bootdevice/by-name/persist
     mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
     restorecon_recursive /persist
@@ -45,11 +13,6 @@ on fs
     mkdir /persist/wlan_bt 0700 system system
 
 on post-fs-data
-    mkdir /data/tombstones 0771 system system
-    mkdir /tombstones/modem 0771 system system
-    mkdir /tombstones/lpass 0771 system system
-    mkdir /tombstones/wcnss 0771 system system
-    mkdir /tombstones/dsps 0771 system system
     mkdir /data/misc/dts 0770 media audio
     mkdir /data/thermal 0771 system system
 
@@ -57,7 +20,6 @@ on boot
     symlink /dev/block/platform/soc.0 /dev/block/bootdevice
     start rmt_storage
     start rfs_access
-
     write /dev/cpuset/foreground/cpus 0-2,4-5
     write /dev/cpuset/foreground/boost/cpus 4-5
     write /dev/cpuset/background/cpus 0
@@ -65,14 +27,9 @@ on boot
     mkdir /dev/cpuset/top-app/boost
     write /dev/cpuset/top-app/cpus 0-5
     write /dev/cpuset/top-app/boost/cpus 4-5
-
     chown system system /dev/cpuset/top-app/boost
     chown system system /dev/cpuset/top-app/boost/tasks
     chmod 0664 /dev/cpuset/top-app/boost/tasks
-
-on property:sys.boot_completed=1
-    # Enable ZRAM on boot_complete
-    swapon_all fstab.qcom
 
 #start camera server as daemon
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
@@ -172,58 +129,15 @@ service readmac /vendor/bin/readmac
     group radio oem_2950 log net_raw wifi
     oneshot
 
-# power save
-on property:sys.perf.profile=0
-  write /sys/block/mmcblk0/queue/scheduler "noop"
-  write /sys/class/kgsl/kgsl-3d0/devfreq/governor "powersave"
-  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-  write /sys/devices/system/cpu/cpu4/core_ctl/max_cpus 0
-  write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 0
-  write /sys/kernel/cpu_input_boost/ib_freqs "384000 384000"
-  write /sys/kernel/cpu_input_boost/ib_duration_ms 0
-  write /sys/kernel/cpu_input_boost/enabled 0
-
-# bias power save
-on property:sys.perf.profile=3
-  write /sys/block/mmcblk0/queue/scheduler "noop"
-  write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
-  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-  write /sys/devices/system/cpu/cpu4/core_ctl/max_cpus 0
-  write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 0
-  write /sys/kernel/cpu_input_boost/ib_freqs "787200 768000"
-  write /sys/kernel/cpu_input_boost/ib_duration_ms 1000
-  write /sys/kernel/cpu_input_boost/enabled 1
-
 # balanced
 on property:sys.perf.profile=1
-  write /sys/block/mmcblk0/queue/scheduler "cfq"
+  write /sys/block/mmcblk0/queue/scheduler "deadline"
+  write /sys/block/mmcblk0rpmb/queue/scheduler "deadline"
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
   write /sys/devices/system/cpu/cpu4/core_ctl/max_cpus 2
   write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 0
   write /sys/kernel/cpu_input_boost/ib_freqs "864000 864000"
-  write /sys/kernel/cpu_input_boost/ib_duration_ms 1000
-  write /sys/kernel/cpu_input_boost/enabled 1
-
-# bias high performance
-on property:sys.perf.profile=4
-  write /sys/block/mmcblk0/queue/scheduler "cfq"
-  write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
-  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-  write /sys/devices/system/cpu/cpu4/core_ctl/max_cpus 2
-  write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 1
-  write /sys/kernel/cpu_input_boost/ib_freqs "960000 960000"
-  write /sys/kernel/cpu_input_boost/ib_duration_ms 1000
-  write /sys/kernel/cpu_input_boost/enabled 1
-
-# high performance
-on property:sys.perf.profile=2
-  write /sys/block/mmcblk0/queue/scheduler "cfq"
-  write /sys/class/kgsl/kgsl-3d0/devfreq/governor "msm-adreno-tz"
-  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-  write /sys/devices/system/cpu/cpu4/core_ctl/max_cpus 2
-  write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 2
-  write /sys/kernel/cpu_input_boost/ib_freqs "1248000 1248000"
   write /sys/kernel/cpu_input_boost/ib_duration_ms 1000
   write /sys/kernel/cpu_input_boost/enabled 1
 
