@@ -330,9 +330,6 @@ service perfd /system/vendor/bin/perfd
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
 
-# corefile limit and ETB enabling
-on property:persist.debug.trace=0
-
 on property:bluetooth.isEnabled=true
     start btwlancoex
     write /sys/class/bluetooth/hci0/idle_timeout 7000
