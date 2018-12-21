@@ -132,7 +132,7 @@ TARGET_KERNEL_CONFIG := libra_defconfig
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/xiaomi/msm8992
+TARGET_KERNEL_SOURCE := kernel/xiaomi/libra
 
 # Keymaster
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
