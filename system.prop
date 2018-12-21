@@ -134,3 +134,11 @@ persist.timed.enable=true
 
 # Google services
 ro.opa.eligible_device=true
+
+#Dex2oat config
+pm.dexopt.install=speed
+pm.dexopt.bg-dexopt=speed
+pm.dexopt.boot=speed
+pm.dexopt.first-boot=speed
+dalvik.vm.dex2oat-filter=speed
+dalvik.vm.image-dex2oat-filter=speed
