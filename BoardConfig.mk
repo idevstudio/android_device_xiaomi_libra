@@ -83,13 +83,6 @@ DONT_DEXPREOPT_PREBUILTS := false
 LOCAL_DEX_PREOPT := true
 PRODUCT_DEX_PREOPT_BOOT_FLAGS := --compiler-filter=speed
 PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := --compiler-filter=speed
-PRODUCT_PROPERTY_OVERRIDES += \
-     pm.dexopt.install=speed
-     pm.dexopt.bg-dexopt=speed
-     pm.dexopt.boot=speed
-     pm.dexopt.first-boot=speed
-     dalvik.vm.dex2oat-filter=speed
-     dalvik.vm.image-dex2oat-filter=speed
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
