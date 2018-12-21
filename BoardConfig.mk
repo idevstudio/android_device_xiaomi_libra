@@ -190,3 +190,8 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcwcn
 WIFI_DRIVER_FW_PATH_STA          := "sta"
 WIFI_DRIVER_FW_PATH_AP           := "ap"
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
+
+# Use Snapdragon LLVM, if available
+TARGET_USE_SDCLANG := true
+SDCLANG_PATH := prebuilts/clang/host/linux-x86/sdclang/bin
+SDCLANG_LTO_DEFS := vendor/lineage/build/core/sdllvm-lto-defs.mk
