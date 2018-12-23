@@ -15,7 +15,7 @@
     "branch": "lineage-15.1"
   },
   {
-    "repository": "Vovan77rus59/kernel_xiaomi_msm8992-lineage-15.1",
+    "repository": "WJXXBSH/kernel_xiaomi_msm8992",
     "target_path": "kernel/xiaomi/msm8992",
     "branch": "Lineage-15.1_v3.10.108"
   }
