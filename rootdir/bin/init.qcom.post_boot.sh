@@ -163,9 +163,6 @@ restorecon -R /sys/devices/system/cpu
 # Enable sched_boost
 echo 1 > /proc/sys/kernel/sched_boost
 
-# Set GPU default power level to 3 (367MHz)
-echo 3 > /sys/class/kgsl/kgsl-3d0/default_pwrlevel
-
 # Set Memory parameters
 echo "14746,18432,22118,25805,33038,41988" > /sys/module/lowmemorykiller/parameters/minfree
 echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
