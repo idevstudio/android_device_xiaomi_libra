@@ -164,6 +164,4 @@ restorecon -R /sys/devices/system/cpu
 echo 1 > /proc/sys/kernel/sched_boost
 
 # Set Memory parameters
-echo "14746,18432,22118,25805,33038,41988" > /sys/module/lowmemorykiller/parameters/minfree
 echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
-echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
