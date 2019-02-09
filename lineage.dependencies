@@ -1,8 +1,8 @@
 [
-  {
-    "repository": "android_kernel_xiaomi_leo",
-    "target_path": "kernel/xiaomi/leo"
-  },
+ {
+   "repository": "android_device_xiaomi_msm8994-common",
+   "target_path": "device/xiaomi/msm8994-common"
+ },
   {
     "repository": "android_vendor_xiaomi_libra",
     "target_path": "vendor/xiaomi/libra"
