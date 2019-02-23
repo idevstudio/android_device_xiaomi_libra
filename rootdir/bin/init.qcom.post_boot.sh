@@ -165,3 +165,6 @@ echo 1 > /proc/sys/kernel/sched_boost
 
 # Set Memory parameters
 echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+
+# Android background processes are set to nice 10. Never schedule these on the a57s.
+write /proc/sys/kernel/sched_upmigrate_min_nice 9
