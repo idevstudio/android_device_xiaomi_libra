@@ -195,3 +195,6 @@ WPA_SUPPLICANT_VERSION           := VER_0_8_X
 TARGET_USE_SDCLANG := true
 SDCLANG_PATH := prebuilts/clang/host/linux-x86/sdclang/bin
 SDCLANG_LTO_DEFS := vendor/lineage/build/core/sdllvm-lto-defs.mk
+
+# Include addon-su
+WITH_SU := true
