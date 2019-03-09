@@ -163,8 +163,13 @@ restorecon -R /sys/devices/system/cpu
 # Enable sched_boost
 echo 1 > /proc/sys/kernel/sched_boost
 
-# Set Memory parameters
-echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+# Input boost configuration
+echo 0:1280000 > /sys/module/cpu_boost/parameters/input_boost_freq
+echo 100 > /sys/module/cpu_boost/parameters/input_boost_ms
 
-# android background processes are set to nice 10. Never schedule these on the a57s.
-echo 9 > write /proc/sys/kernel/sched_upmigrate_min_nice
+# Set LMK parameters
+echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+echo 0 > /sys/module/lowmemorykiller/parameters/debug_level
+
+# Android background processes are set to nice 10. Never schedule these on the a57s.
+echo 9 > /proc/sys/kernel/sched_upmigrate_min_nice
