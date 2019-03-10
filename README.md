@@ -1,5 +1,7 @@
 Copyright 2019 - The LineageOS Project
 
+Original codes from: https://github.com/xiaomi-classic-dev/android_device_xiaomi_libra
+
 Device configuration for Xiaomi Mi-4c.
 =====================================
 
