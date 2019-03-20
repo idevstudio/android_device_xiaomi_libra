@@ -18,7 +18,7 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2013265920 #1920M
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 27980184576 #26G
 
 # Lineage Hardware
-JAVA_SOURCE_OVERLAYS := org.lineage.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
+JAVA_SOURCE_OVERLAYS := org.lineageos.hardware|$(DEVICE_PATH)/lineagehw|**/*.java
 
 # DT2W
 TARGET_TAP_TO_WAKE_NODE := "/proc/touchscreen/double_tap_enable"

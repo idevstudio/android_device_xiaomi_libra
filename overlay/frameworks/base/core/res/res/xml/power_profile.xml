@@ -53,9 +53,9 @@
         <value>1344000</value>
         <value>1440000</value>
         <value>1536000</value>
-        <value>1632000</value>
-        <value>1689600</value>
+        <value>1689000</value>
         <value>1824000</value>
+        <value>1856000</value>
     </array>
     <!-- Power consumption when CPU is idle -->
     <item name="cpu.idle">3.5</item>
@@ -71,8 +71,8 @@
         <value>290</value>
         <value>310</value>
         <value>390</value>
-        <value>400</value>
         <value>440</value>
         <value>520</value>
+        <value>560</value>
     </array>
 </device>
