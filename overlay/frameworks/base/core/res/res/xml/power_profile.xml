@@ -53,6 +53,7 @@
         <value>1344000</value>
         <value>1440000</value>
         <value>1536000</value>
+        <value>1632000</value>
         <value>1689000</value>
         <value>1824000</value>
         <value>1856000</value>
@@ -73,6 +74,6 @@
         <value>390</value>
         <value>440</value>
         <value>520</value>
-        <value>560</value>
+        <value>540</value>
     </array>
 </device>
