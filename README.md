@@ -1,6 +1,8 @@
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
 Copyright 2019 - The LineageOS Project
 
-Original codes from: https://github.com/xiaomi-classic-dev/android_device_xiaomi_libra
+Original codes from: [Xiaomi Classic Dev](https://github.com/xiaomi-classic-dev/android_device_xiaomi_libra)
 
 Device configuration for Xiaomi Mi-4c.
 =====================================
